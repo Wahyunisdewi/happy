@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Anniversary!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #ffe4e1; /* Pink pastel background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Container Amplop */
+        .envelope-wrapper {
+            position: relative;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background-color: #f08080;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Penutup Atas Amplop */
+        .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #e06666;
+            transform-origin: top;
+            transition: transform 0.6s ease-in-out, z-index 0.2s;
+            z-index: 4;
+        }
+
+        /* Bagian Bawah/Depan Amplop */
+        .front {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid #ea9999;
+            border-right: 150px solid #ea9999;
+            border-bottom: 100px solid #e06666;
+            z-index: 3;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+
+        /* Surat di dalam amplop */
+        .letter {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background-color: #fff;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            transition: transform 0.8s ease-in-out;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .letter h1 {
+            font-family: 'Dancing Script', cursive;
+            color: #cc0000;
+            margin: 0 0 10px 0;
+            font-size: 28px;
+        }
+
+        .letter p {
+            color: #555;
+            font-size: 14px;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Animasi Buka Amplop */
+        .open .flap {
+            transform: rotateX(180deg);
+            z-index: 1; /* Pindah ke belakang surat */
+        }
+
+        .open .letter {
+            transform: translateY(-130px);
+            z-index: 5; /* Pindah ke depan amplop */
+        }
+
+        /* Teks Petunjuk */
+        .instruction {
+            position: absolute;
+            bottom: -40px;
+            width: 100%;
+            text-align: center;
+            color: #d9534f;
+            font-weight: bold;
+            animation: pulse 1.5s infinite;
+        }
+
+        .open .instruction {
+            display: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* CSS untuk Efek Hati (Love) Jatuh/Terbang */
+        .heart {
+            position: absolute;
+            bottom: -50px;
+            width: 20px;
+            height: 20px;
+            background-color: #ff4d4d;
+            transform: rotate(-45deg);
+            animation: floatUp linear forwards;
+            z-index: 1;
+        }
+
+        .heart::before, .heart::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #ff4d4d;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart::after {
+            left: 10px;
+            top: 0;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(-45deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-120vh) rotate(-45deg) scale(1.5);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="romantic-song" src="romantic-song.mp3" loop></audio>
+
+    <div class="envelope-wrapper" onclick="openEnvelope()">
+        <div class="envelope">
+            <div class="flap"></div>
+            <div class="letter">
+                <h1>Happy 3rd Anniversary!</h1>
+                <p>Terima kasih sudah hadir dalam hidupku dan menjadi bagian dari perjalanan yang begitu indah. Tiga tahun ini yang penuh cinta, tawa, sedih dan perjuangan. Aku berharap kita selalu bersama mengukir kenangan manis lainnya. I love you! ❤️</p>
+            </div>
+            <div class="front"></div>
+        </div>
+        <div class="instruction">Klik Amplopnya ❤️</div>
+    </div>
+
+    <script>
+        let isOpen = false;
+
+        function openEnvelope() {
+            if (isOpen) return; // Mencegah klik berkali-kali
+            
+            const wrapper = document.querySelector('.envelope-wrapper');
+            const audio = document.getElementById('romantic-song');
+            
+            // 1. Tambahkan class 'open' untuk memicu animasi CSS
+            wrapper.classList.add('open');
+            
+            // 2. Putar lagu
+            audio.play().catch(error => {
+                console.log("Browser memblokir autoplay audio, pastikan interaksi pengguna terekam.");
+            });
+
+            // 3. Mulai efek hujan hati
+            startHeartEffect();
+            
+            isOpen = true;
+        }
+
+        function startHeartEffect() {
+            // Buat hati baru setiap 300 milidetik
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                
+                // Posisi X secara acak (0 hingga 100vw)
+                heart.style.left = Math.random() * 100 + 'vw';
+                
+                // Durasi terbang secara acak (3 hingga 6 detik)
+                const duration = Math.random() * 3 + 3;
+                heart.style.animationDuration = duration + 's';
+                
+                // Ukuran acak
+                const scale = Math.random() * 0.5 + 0.5;
+                heart.style.transform = `scale(${scale}) rotate(-45deg)`;
+
+                document.body.appendChild(heart);
+
+                // Hapus elemen hati setelah animasinya selesai agar tidak membebani memori
+                setTimeout(() => {
+                    heart.remove();
+                }, duration * 1000);
+
+            }, 300);
+        }
+    </script>
+</body>
+</html>
